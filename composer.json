@@ -1,0 +1,25 @@
+{
+    "name": "vsevolod-ryzhov/yandex-turbo-rss",
+    "description": "Sync data with Yandex Turbo Pages rss feed",
+    "type": "library",
+    "require": {
+        "php": ">=7.2",
+        "ext-xmlwriter": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=5.6",
+        "kubawerlos/html-validator": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "vsevolodryzhov\\YandexTurboRss\\": "src"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vsevolod Ryzhov",
+            "email": "ryzhov@eot.company"
+        }
+    ]
+}
