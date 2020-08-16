@@ -6,12 +6,13 @@ declare(strict_types=1);
 namespace vsevolodryzhov\YandexTurboRss;
 
 
+use DomainException;
 use XMLWriter;
 
 class Feed
 {
     /**
-     * @var PageItem[]
+     * @var PageItemCollection
      */
     private $pages;
 
@@ -42,7 +43,7 @@ class Feed
 
     public function __construct(string $title, string $link, string $description, string $language)
     {
-
+        $this->pages = new PageItemCollection();
         $this->title = $title;
         $this->link = $link;
         $this->description = $description;
@@ -50,11 +51,14 @@ class Feed
     }
 
     /**
-     * @param mixed $pages
+     * @param PageItem $page
      */
-    public function setPages($pages): void
+    public function setPage(PageItem $page): void
     {
-        $this->pages = $pages;
+        if ($this->pages->hasPage($page)) {
+            throw new DomainException('This page is already exists');
+        }
+        $this->pages->set($page);
     }
 
     /**

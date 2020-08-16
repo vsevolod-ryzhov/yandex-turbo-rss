@@ -21,10 +21,12 @@ class FeedTest extends TestCase
         );
         $feed->setAnalytics(new Analytics('Yandex', '12345'));
 
-        $feed->setPages([
-            new PageItem('First test Page', 'https://eot.company', '<p>Test content</p>')
-        ]);
+        $feed->setPage(new PageItem('First test Page', 'https://eot.company/test', '<p>Test content</p>'));
 
         $this::assertInstanceOf(XMLWriter::class, $feed->make());
+        $output = $feed->make()->outputMemory();
+        $this::assertStringContainsString('First test Page', $output);
+        $this::assertStringContainsString('https://eot.company/test', $output);
+        $this::assertStringContainsString('<p>Test content</p>', $output);
     }
 }
