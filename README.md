@@ -26,6 +26,7 @@ $feed = new Feed(
 2. Add analytics
 ```php
 $feed->setAnalytics(new Analytics('Yandex', '12345'));
+$feed->setAnalytics(new Analytics('Google', '54321'));
 ```
 
 3. Create pages objects and add them to feed object

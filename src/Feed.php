@@ -37,13 +37,14 @@ class Feed
     private $language;
 
     /**
-     * @var Analytics|null
+     * @var AnalyticsCollection
      */
     private $analytics;
 
     public function __construct(string $title, string $link, string $description, string $language)
     {
         $this->pages = new PageItemCollection();
+        $this->analytics = new AnalyticsCollection();
         $this->title = $title;
         $this->link = $link;
         $this->description = $description;
@@ -66,7 +67,10 @@ class Feed
      */
     public function setAnalytics(Analytics $analytics): void
     {
-        $this->analytics = $analytics;
+        if ($this->analytics->hasItem($analytics)) {
+            throw new DomainException('This analytics is already exists');
+        }
+        $this->analytics->set($analytics);
     }
 
     private function writeFeedInformation(XMLWriter $xml): XMLWriter
@@ -85,14 +89,12 @@ class Feed
      */
     private function writeAnalytics(XMLWriter $xml): XMLWriter
     {
-        if (!$this->analytics) {
-            return $xml;
+        foreach ($this->analytics as $analytic) {
+            $xml->startElement('turbo:analytics');
+            $xml->writeAttribute('type', $analytic->getType());
+            $xml->writeAttribute('id', $analytic->getId());
+            $xml->endElement(); // turbo:analytics
         }
-
-        $xml->startElement('turbo:analytics');
-        $xml->writeAttribute('type', $this->analytics->getType());
-        $xml->writeAttribute('id', $this->analytics->getId());
-        $xml->endElement(); // turbo:analytics
 
         return $xml;
     }
