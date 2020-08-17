@@ -29,7 +29,13 @@ $feed->setAnalytics(new Analytics('Yandex', '12345'));
 $feed->setAnalytics(new Analytics('Google', '54321'));
 ```
 
-3. Create pages objects and add them to feed object
+3. Add content prefix and / or prefix 
+```php
+$feed->setContentPrefix('<div>This content will display before main content</div>');
+$feed->setContentSuffix('<footer>This content will display after main content</footer>');
+```
+
+4. Create pages objects and add them to feed object
 ```php
 $page1 = new PageItem('First test Page', 'https://eot.company/en', '<p>Test content</p>');
 $feed->setPage($page1);
@@ -41,7 +47,7 @@ $page2->setContentModifiers(static function ($content) { return str_replace(arra
 
 ```
 
-4. Make feed and output (or write to file)
+5. Make feed and output (or write to file)
 ```php
 $xml = $feed->make(); // this will return XMLWriter object
 

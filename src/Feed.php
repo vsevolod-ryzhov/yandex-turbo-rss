@@ -102,6 +102,7 @@ class Feed
     private function writePages(XMLWriter $xml): XMLWriter
     {
         foreach ($this->pages as $page) {
+            /* @var $page PageItem */
             $xml->startElement('item');
             $xml->writeAttribute('turbo', 'true');
 
