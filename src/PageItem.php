@@ -9,7 +9,7 @@ class PageItem
     /**
      * @var string
      */
-    private $defaultTitle;
+    private $title;
 
     /**
      * @var string
@@ -42,19 +42,19 @@ class PageItem
     private $contentSuffix = '';
 
     /**
-     * Check if `header` and `h1` tags exists and `h1` is present inside `header`
      * @param string $content
-     * @return bool
+     * @return string|null
      */
-    private function contentHasTitle(string $content): bool
+    private function getTitleFromContent(string $content): ?string
     {
         if (strpos($content, '<h1') === false || strpos($content, '<header') === false) {
-            return false;
+            return null;
         }
 
-        $pattern = '#<\s*?header\b[^>]*>(.*?)</header\b[^>]*>#s';
+        // `h1` must be inside `header` tag. It's required rule by yandex
+        $pattern = '#<\s*?header\b[^>]*>.*?<\s*?h1\b[^>]*>(.*?)</h1\b[^>]*>.*?</header\b[^>]*>#s';
         preg_match($pattern, $content, $matches);
-        return !(!$matches || strpos($matches[1], '<h1') === false);
+        return ($matches && $matches[1]) ? strip_tags($matches[1]) : null;
     }
 
     /**
@@ -75,7 +75,9 @@ class PageItem
      */
     public function __construct(string $defaultTitle, string $link, string $content)
     {
-        $this->defaultTitle = $defaultTitle;
+        // find title in content or set from constructor param if not founded
+        $this->title = $this->getTitleFromContent($content) ?: $defaultTitle;
+
         $this->content = $content;
         $this->link = $link;
         $this->content = $content;
@@ -108,6 +110,14 @@ class PageItem
     /**
      * @return string
      */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
     public function getContent(): string
     {
         $returnContent = $this->content;
@@ -115,9 +125,7 @@ class PageItem
             $returnContent = $contentModifier($returnContent);
         }
 
-        if (!$this->contentHasTitle($returnContent)) {
-            $returnContent = $this->appendTitle($returnContent, $this->defaultTitle);
-        }
+        $returnContent = $this->appendTitle($returnContent, $this->title);
         return $this->contentPrefix . $returnContent . $this->contentSuffix;
     }
 

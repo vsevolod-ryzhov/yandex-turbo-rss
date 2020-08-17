@@ -107,6 +107,7 @@ class Feed
             $xml->writeAttribute('turbo', 'true');
 
             $xml->writeElement('link', $page->getLink());
+            $xml->writeElement('turbo:topic', $page->getTitle());
             $xml->startElement('turbo:content');
             $xml->writeCdata($page->getContent());
             $xml->endElement(); // turbo:content

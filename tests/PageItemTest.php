@@ -43,6 +43,21 @@ class PageItemTest extends TestCase
     }
 
     /**
+     * Test valid html content with classes and inline styles
+     */
+    public function testComplexLayoutSuccess()
+    {
+        $content = '<header id="my-header-block" class="header header-alt" style="display: block; margin: 0"><h1 id="my-title" style="border-bottom: 1px solid #fff; padding: 0;" class="h1 text-primary">Title <span>with subtitle</span></h1></header><p>Content</p><div><img src="https://eot.company/themes/classic/images/logo-en-black.svg" alt="test" /></div>';
+        $item = new PageItem(
+            self::TITLE,
+            self::LINK,
+            $content
+        );
+
+        $this::assertEmpty(Validator::validate($this->wrapHtml($item->getContent())));
+    }
+
+    /**
      * Check custom html modifier function
      */
     public function testContentCallbackSuccess()
