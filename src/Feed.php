@@ -108,6 +108,9 @@ class Feed
 
             $xml->writeElement('link', $page->getLink());
             $xml->writeElement('turbo:topic', $page->getTitle());
+            if (null !== ($pubDate = $page->getPubDate())) {
+                $xml->writeElement('pubDate', $pubDate);
+            }
             $xml->startElement('turbo:content');
             $xml->writeCdata($page->getContent());
             $xml->endElement(); // turbo:content

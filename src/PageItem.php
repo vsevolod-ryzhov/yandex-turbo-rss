@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace vsevolodryzhov\YandexTurboRss;
 
+use DateTimeImmutable;
+
 class PageItem
 {
     /**
@@ -15,6 +17,11 @@ class PageItem
      * @var string
      */
     private $link;
+
+    /**
+     * @var DateTimeImmutable
+     */
+    private $pubDate;
 
     /**
      * @var string
@@ -151,5 +158,21 @@ class PageItem
     public function setContentModifiers(callable $contentModifier): void
     {
         $this->contentModifiers[] = $contentModifier;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getPubDate(): ?string
+    {
+        return ($this->pubDate) ? $this->pubDate->format(DateTimeImmutable::RFC822) : null;
+    }
+
+    /**
+     * @param DateTimeImmutable $pubDate
+     */
+    public function setPubDate(DateTimeImmutable $pubDate): void
+    {
+        $this->pubDate = $pubDate;
     }
 }
