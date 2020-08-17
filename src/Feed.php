@@ -111,6 +111,9 @@ class Feed
             if (null !== ($pubDate = $page->getPubDate())) {
                 $xml->writeElement('pubDate', $pubDate);
             }
+            if (null !== ($author = $page->getAuthor())) {
+                $xml->writeElement('author', $author);
+            }
             $xml->startElement('turbo:content');
             $xml->writeCdata($page->getContent());
             $xml->endElement(); // turbo:content

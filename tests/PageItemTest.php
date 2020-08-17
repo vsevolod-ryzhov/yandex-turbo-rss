@@ -102,4 +102,16 @@ class PageItemTest extends TestCase
         $item->setPubDate(new DateTimeImmutable("30.08.2020 10:30:40"));
         $this::assertSame('Sun, 30 Aug 20 10:30:40 +0000', $item->getPubDate());
     }
+
+    public function testAuthorSuccess()
+    {
+        $content = '<header><h1>Title</h1></header><p>Content</p><div><img src="https://eot.company/themes/classic/images/logo-en-black.svg" alt="test" /></div>';
+        $item = new PageItem(
+            self::TITLE,
+            self::LINK,
+            $content
+        );
+        $item->setAuthor('Vsevolod Ryzhov');
+        $this::assertSame('Vsevolod Ryzhov', $item->getAuthor());
+    }
 }

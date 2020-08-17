@@ -26,6 +26,11 @@ class PageItem
     /**
      * @var string
      */
+    private $author;
+
+    /**
+     * @var string
+     */
     private $content;
 
     /**
@@ -174,5 +179,21 @@ class PageItem
     public function setPubDate(DateTimeImmutable $pubDate): void
     {
         $this->pubDate = $pubDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param string $author
+     */
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
     }
 }
